@@ -1,4 +1,5 @@
 import time
+import math
 from neopixel import *
 
 # LED strip configuration:
@@ -12,21 +13,34 @@ LED_INVERT     = False   # True to invert the signal (when using NPN transistor 
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 LED_STRIP      = ws.WS2811_STRIP_GRB   # Strip type and colour ordering
 
+def off():
+  for i in range(LED_COUNT):
+    strip.setPixelColor(i,Color(0,0,0))
+  strip.show()
+
 def r(a):
-  return 60
+  return int(math.fabs(math.sin(a/100*6.83)*128))
 
 def v(a):
-  return 60
+  return int(math.fabs(math.sin((a+33)/100*6.83)*128))
 
 def b(a):
-  return 60
+  return int(math.fabs(math.sin((a+66)/100*6.83)*128))
 
-if __name__ == '__main__':
-  # Create NeoPixel object with appropriate configuration.
-  strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
-  strip.begin()
+def t1():
   for ang in range(100):
     for x in range(30):
       for y in range(10):
         strip.setPixelColor(x+y*30,Color(r(ang),v(ang),b(ang)))
     strip.show()
+    time.sleep(0.1)
+
+if __name__ == '__main__':
+  # Create NeoPixel object with appropriate configuration.
+  strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
+  strip.begin()
+  try:
+    while True:
+      t1()
+  except:
+    off()
