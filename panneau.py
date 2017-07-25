@@ -27,13 +27,49 @@ def v(a):
 def b(a):
   return int(math.fabs(math.sin((a+66)/100*6.83)*128))
 
+def ledposition(x,y):
+  sens = 0 if y % 2 == 0 else 1
+  return x + sens * (29 - 2 * x) + y * 30
+
 def t1():
   for ang in range(100):
     for x in range(30):
       for y in range(10):
-        strip.setPixelColor(x+y*30,Color(r(ang),v(ang),b(ang)))
+        strip.setPixelColor(ledposition(x,y),Color(r(ang),v(ang),b(ang)))
     strip.show()
     time.sleep(0.1)
+
+def t2():
+  for y in range(10):
+    strip.setPixelColor(ledposition(0,y),Color(0,0,128))
+    strip.setPixelColor(ledposition(5,y),Color(0,128,0))
+    strip.setPixelColor(ledposition(29,y),Color(128,0,0))
+  strip.show()
+
+def t3():
+  for x in range(30):
+    for y in range(10):
+      strip.setPixelColor(ledposition(x,y),Color(0,0,128))
+    strip.show()
+  for x in range(30):
+    for y in range(10):
+      strip.setPixelColor(ledposition(x,y),Color(0,128,0))
+    strip.show()
+  for x in range(30):
+    for y in range(10):
+      strip.setPixelColor(ledposition(x,y),Color(128,0,0))
+    strip.show()
+  for x in range(30):
+    for y in range(10):
+      strip.setPixelColor(ledposition(x,y),Color(0,0,0))
+    strip.show()
+
+def t4():
+  for h in range(64):
+    for x in range(30):
+      for y in range(10):
+        strip.setPixelColor(ledposition(x,y),Color(h,h,h))
+    strip.show()
 
 if __name__ == '__main__':
   # Create NeoPixel object with appropriate configuration.
@@ -41,6 +77,6 @@ if __name__ == '__main__':
   strip.begin()
   try:
     while True:
-      t1()
+      t4()
   except:
     off()
