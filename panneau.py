@@ -42,5 +42,5 @@ if __name__ == '__main__':
   try:
     while True:
       t1()
-  except:
+  except KeyboardInterrupt:
     off()
