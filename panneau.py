@@ -64,12 +64,81 @@ def t3():
       strip.setPixelColor(ledposition(x,y),Color(0,0,0))
     strip.show()
 
+# montre un manque tention dans le dernier tier du panneau
 def t4():
-  for h in range(64):
+  for h in range(256):
     for x in range(30):
       for y in range(10):
         strip.setPixelColor(ledposition(x,y),Color(h,h,h))
     strip.show()
+
+def t5(r,v,b):
+  for h in range(256):
+    for x in range(30):
+      for y in range(10):
+        strip.setPixelColor(ledposition(x,y),Color(r*h,v*h,b*h))
+    strip.show()
+
+def t6():
+  t5(1,0,0)
+  t5(0,1,0)
+  t5(0,0,1)
+
+alpha={'a' : [[ 0,1,1,0,0 ],
+              [ 1,0,0,1,0 ],
+              [ 1,1,1,1,0 ],
+              [ 1,0,0,1,0 ],
+              [ 1,0,0,1,0 ]],
+       'b' : [[ 1,1,1,0,0 ],
+              [ 1,0,0,1,0 ],
+              [ 1,1,1,0,0 ],
+              [ 1,0,0,1,0 ],
+              [ 1,1,1,0,0 ]],
+       ' ' : [[ 0,0,0,0,0 ],
+              [ 0,0,0,0,0 ],
+              [ 0,0,0,0,0 ],
+              [ 0,0,0,0,0 ],
+              [ 0,0,0,0,0 ]],
+       '0' : [[ 0,1,1,0,0 ],
+              [ 1,0,0,1,0 ],
+              [ 1,0,0,1,0 ],
+              [ 1,0,0,1,0 ],
+              [ 0,1,1,0,0 ]],
+       '1' : [[ 0,0,1,0,0 ],
+              [ 0,1,1,0,0 ],
+              [ 0,0,1,0,0 ],
+              [ 0,0,1,0,0 ],
+              [ 0,1,1,1,0 ]],
+       'o' : [[ 0,0,0,0,0 ],
+              [ 0,1,1,0,0 ],
+              [ 1,0,0,1,0 ],
+              [ 1,0,0,1,0 ],
+              [ 0,1,1,0,0 ]],
+       'z' : [[ 1,1,1,1,0 ],
+              [ 0,0,1,0,0 ],
+              [ 0,1,0,0,0 ],
+              [ 1,0,0,0,0 ],
+              [ 1,1,1,1,0 ]]}
+
+def copy(x, y, char):
+  for xchar in range(5):
+    for ychar in range(5):
+      strip.setPixelColor(ledposition(xchar+x, ychar+y), Color(255,255,255) if char[ychar][xchar] == 1 else Color(0,0,0))
+
+def t7():
+  copy(0,0, alpha['a'])
+  strip.show()
+  copy(10,0, alpha['b'])
+  strip.show()
+  copy(20,0, alpha['a'])
+  strip.show()
+      
+def t8():
+  p = 0
+  for c in ['b','o','b','1','0','1']:
+    copy(p,0, alpha[c])
+    p += 5
+  strip.show()
 
 if __name__ == '__main__':
   # Create NeoPixel object with appropriate configuration.
@@ -77,6 +146,6 @@ if __name__ == '__main__':
   strip.begin()
   try:
     while True:
-      t4()
-  except:
+      t8()
+  except KeyboardInterrupt:
     off()
